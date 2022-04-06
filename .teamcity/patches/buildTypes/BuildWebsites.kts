@@ -12,6 +12,10 @@ To apply the patch, change the buildType with id = 'BuildWebsites'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildWebsites")) {
+    vcs {
+        add(RelativeId("HttpsGithubComMnMdeEdfiEdFiOdsRefsHeadsDevelopMnV31"))
+    }
+
     expectSteps {
         powerShell {
             name = "Clean package directories"
