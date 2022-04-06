@@ -12,6 +12,7 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
     vcs {
+        remove(RelativeId("SvnHttpEduSvn01educStateMnUsSvnAsdcsTrunkMainV52"))
         add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
         add(RelativeId("EdFiOdsDocker"), "+:. => Ed-Fi-ODS-Docker")
     }
