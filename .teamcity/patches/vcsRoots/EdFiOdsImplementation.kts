@@ -13,7 +13,8 @@ create(DslContext.projectId, GitVcsRoot({
     id("EdFiOdsImplementation")
     name = "Ed-Fi-ODS-Implementation"
     url = "https://github.com/mn-mde-edfi/Ed-Fi-ODS-Implementation"
-    branch = "refs/heads/develop-MN-v31"
+    branch = "refs/heads/main-v52"
+    branchSpec = "+:*"
     authMethod = password {
         userName = "dennispiatt"
         password = "credentialsJSON:0f12473a-0eb1-4d19-b397-866c46491400"
