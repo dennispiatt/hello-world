@@ -83,7 +83,14 @@ changeBuildType(RelativeId("GenerateTemplates")) {
             clearConditions()
             formatStderrAsError = false
             scriptMode = script {
-                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text"
+                content = """
+                    & dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text
+                    if (-not (Test-Path ".\tools")){
+                        New-Item ".\tools" -ItemType Directory
+                    }
+                    ${'$'}toolPath = Resolve-Path ".\tools"
+                    & dotnet tool install EdFi.Ods.CodeGen --tool-path ${'$'}toolPath
+                """.trimIndent()
             }
             noProfile = true
             param("jetbrains_powershell_script_file", "")
