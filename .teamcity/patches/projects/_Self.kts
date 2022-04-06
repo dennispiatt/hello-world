@@ -37,6 +37,12 @@ changeProject(DslContext.projectId) {
         update {
             param("octopus.nuget.apikey", "%OctopusAPIKey%")
         }
+        expect {
+            param("octopus.nuget.package.source", "http://edu-edfidployv5/")
+        }
+        update {
+            param("octopus.nuget.package.source", "%OctopusServer%")
+        }
     }
 
     features {
