@@ -17,7 +17,7 @@ changeProject(DslContext.projectId) {
             param("nexus.docker.feed", "http://edu-dockeru01.educ.state.mn.us:8081/repository/edfi-docker/")
         }
         update {
-            param("nexus.docker.feed", "http://localhost:8081/repository/edfi-docker/")
+            param("nexus.docker.feed", "%mn-mde-edfi.nexus.host%/repository/edfi-docker/")
         }
     }
 
