@@ -93,53 +93,28 @@ changeBuildType(RelativeId("BuildWebsites")) {
     }
     steps {
         update<PowerShellStep>(1) {
-            name = "Add Nuget Source for Codegen Package"
-            enabled = false
+            clearConditions()
+            param("jetbrains_powershell_script_file", "")
+        }
+        update<PowerShellStep>(2) {
+            name = "Add Nuget Source for Codegen Package in Ed-Fi-Implementation"
             clearConditions()
             formatStderrAsError = false
             scriptMode = script {
                 content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
-            }
-        }
-        update<PowerShellStep>(2) {
-            name = "Build Ed-Fi ODS Admin App"
-            clearConditions()
-            workingDir = "Ed-Fi-ODS-AdminApp"
-            scriptMode = script {
-                content = """
-                    .\build.ps1 -Version "%adminApp.version%" -BuildCounter %build.counter% -Command Build -Configuration Release
-                    .\build.ps1 -Command UnitTest -Configuration Release
-                    .\build.ps1 -Version "%adminApp.version%" -BuildCounter %build.counter% -Command Package -Configuration Release
-                    ${'$'}packageDir = "..\Ed-Fi-Ods-Implementation\packages"
-                    if(-not (Test-Path ${'$'}packageDir)) { 
-                    	md ${'$'}packageDir | out-null
-                    }
-                    copy *.nupkg ${'$'}packageDir
-                    ls ${'$'}packageDir
-                """.trimIndent()
             }
             param("jetbrains_powershell_script_file", "")
         }
         update<PowerShellStep>(3) {
-            name = "Add Nuget Source for Codegen Package in Ed-Fi-Implementation"
+            name = "Build Ed-Fi ODS API websites and databases"
             clearConditions()
-            formatStderrAsError = false
             workingDir = "Ed-Fi-ODS-Implementation"
-            scriptMode = script {
-                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+            scriptMode = file {
+                path = "build.teamcity.ps1"
             }
+            param("jetbrains_powershell_script_code", "")
         }
         insert(4) {
-            powerShell {
-                name = "Build Ed-Fi ODS API websites and databases"
-                formatStderrAsError = true
-                workingDir = "Ed-Fi-ODS-Implementation"
-                scriptMode = file {
-                    path = "build.teamcity.ps1"
-                }
-            }
-        }
-        insert(5) {
             powerShell {
                 name = "Copy Built Binaries for Docker"
                 formatStderrAsError = true
@@ -162,7 +137,7 @@ changeBuildType(RelativeId("BuildWebsites")) {
                 }
             }
         }
-        update<NuGetPublishStep>(6) {
+        update<NuGetPublishStep>(5) {
             clearConditions()
             apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
         }
