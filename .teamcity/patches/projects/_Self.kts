@@ -20,6 +20,12 @@ changeProject(DslContext.projectId) {
             param("nexus.docker.feed", "%mn-mde-edfi.nexus.host%/repository/edfi-docker/")
         }
         expect {
+            param("nexus.nuget.api.key", "7a7a0676-447f-39a2-87a9-6fbb251794de ")
+        }
+        update {
+            param("nexus.nuget.api.key", "%mn-mde-edfi.nexus.nuget.apikey%")
+        }
+        expect {
             param("nexus.nuget.package.source", "http://edu-dockeru01.educ.state.mn.us:8081/repository/Ed-Fi/")
         }
         update {
