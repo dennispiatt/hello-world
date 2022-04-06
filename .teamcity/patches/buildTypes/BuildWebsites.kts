@@ -94,6 +94,7 @@ changeBuildType(RelativeId("BuildWebsites")) {
     steps {
         update<PowerShellStep>(1) {
             name = "Add Nuget Source for Codegen Package"
+            enabled = false
             clearConditions()
             formatStderrAsError = false
             scriptMode = script {
