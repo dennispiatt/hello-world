@@ -91,11 +91,7 @@ changeBuildType(RelativeId("BuildWebsites")) {
         }
     }
     steps {
-        update<NuGetPublishStep>(4) {
-            clearConditions()
-            apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
-        }
-        insert(5) {
+        insert(1) {
             powerShell {
                 name = "Add Nuget Source for Codegen Package"
                 workingDir = "Ed-Fi-ODS-Implementation"
@@ -103,6 +99,10 @@ changeBuildType(RelativeId("BuildWebsites")) {
                     content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
                 }
             }
+        }
+        update<NuGetPublishStep>(5) {
+            clearConditions()
+            apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
         }
     }
 }
