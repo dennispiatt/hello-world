@@ -13,6 +13,7 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("GenerateTemplates")) {
     vcs {
+        remove(RelativeId("SvnHttpEduSvn01educStateMnUsSvnAsdcsTrunkMainV52"))
         add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
     }
 
