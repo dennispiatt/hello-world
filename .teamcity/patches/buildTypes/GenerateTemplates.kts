@@ -77,11 +77,7 @@ changeBuildType(RelativeId("GenerateTemplates")) {
         }
     }
     steps {
-        update<NuGetPublishStep>(2) {
-            clearConditions()
-            apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
-        }
-        insert(3) {
+        insert(1) {
             powerShell {
                 name = "Add Nuget Source for Codegen Package"
                 workingDir = "Ed-Fi-ODS-Implementation"
@@ -89,6 +85,10 @@ changeBuildType(RelativeId("GenerateTemplates")) {
                     content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
                 }
             }
+        }
+        update<NuGetPublishStep>(3) {
+            clearConditions()
+            apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
         }
     }
 }
