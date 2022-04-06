@@ -120,7 +120,7 @@ changeBuildType(RelativeId("BuildWebsites")) {
             param("jetbrains_powershell_script_file", "")
         }
         update<PowerShellStep>(3) {
-            name = "Add Nuget Source for Codegen Package (1)"
+            name = "Add Nuget Source for Codegen Package in Ed-Fi-Implementation"
             clearConditions()
             formatStderrAsError = false
             workingDir = "Ed-Fi-ODS-Implementation"

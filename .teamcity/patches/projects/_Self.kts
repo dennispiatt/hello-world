@@ -4,6 +4,7 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.Project
 import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.DockerRegistryConnection
 import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.dockerRegistry
+import jetbrains.buildServer.configs.kotlin.v2019_2.projectFeatures.nuGetFeed
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -57,6 +58,13 @@ changeProject(DslContext.projectId) {
         }
         feature1.apply {
             password = "credentialsJSON:af64153b-959a-4cf6-ae87-8a04392392d9"
+        }
+        add {
+            nuGetFeed {
+                id = "repository-nuget-github"
+                name = "github"
+                description = "https://nuget.pkg.github.com/mn-mde-edfi/index.json"
+            }
         }
     }
 }

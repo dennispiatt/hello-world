@@ -2,6 +2,7 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.NuGetPublishStep
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.PowerShellStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
@@ -77,13 +78,25 @@ changeBuildType(RelativeId("GenerateTemplates")) {
         }
     }
     steps {
-        insert(1) {
+        update<PowerShellStep>(1) {
+            name = "Add Nuget Source for Codegen Package"
+            clearConditions()
+            formatStderrAsError = false
+            scriptMode = script {
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+            }
+            noProfile = true
+            param("jetbrains_powershell_script_file", "")
+        }
+        insert(2) {
             powerShell {
-                name = "Add Nuget Source for Codegen Package"
+                name = "Build Database Templates"
+                formatStderrAsError = true
                 workingDir = "Ed-Fi-ODS-Implementation"
-                scriptMode = script {
-                    content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+                scriptMode = file {
+                    path = "buildDatabaseTemplates.ps1"
                 }
+                noProfile = false
             }
         }
         update<NuGetPublishStep>(3) {
