@@ -13,6 +13,7 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildWebsites")) {
     vcs {
+        remove(RelativeId("SvnHttpEduSvn01educStateMnUsSvnAsdcsTrunkMainV52"))
         add(RelativeId("HttpsGithubComMnMdeEdfiEdFiOdsRefsHeadsDevelopMnV31"), "+:. => Ed-Fi-ODS")
         add(RelativeId("EdFiOdsAdminApp"), "+:. => Ed-Fi-ODS-AdminApp")
         add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
