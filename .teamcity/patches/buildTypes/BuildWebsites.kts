@@ -14,6 +14,7 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("BuildWebsites")) {
     vcs {
         add(RelativeId("HttpsGithubComMnMdeEdfiEdFiOdsRefsHeadsDevelopMnV31"), "+:. => Ed-Fi-ODS")
+        add(RelativeId("EdFiOdsAdminApp"))
     }
 
     expectSteps {
