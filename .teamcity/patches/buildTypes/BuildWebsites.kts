@@ -15,7 +15,7 @@ changeBuildType(RelativeId("BuildWebsites")) {
     vcs {
         add(RelativeId("HttpsGithubComMnMdeEdfiEdFiOdsRefsHeadsDevelopMnV31"), "+:. => Ed-Fi-ODS")
         add(RelativeId("EdFiOdsAdminApp"), "+:. => Ed-Fi-ODS-AdminApp")
-        add(RelativeId("EdFiOdsImplementation"))
+        add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
     }
 
     expectSteps {
