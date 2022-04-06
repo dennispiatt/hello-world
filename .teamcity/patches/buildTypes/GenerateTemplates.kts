@@ -83,7 +83,7 @@ changeBuildType(RelativeId("GenerateTemplates")) {
             clearConditions()
             formatStderrAsError = false
             scriptMode = script {
-                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text"
             }
             noProfile = true
             param("jetbrains_powershell_script_file", "")
