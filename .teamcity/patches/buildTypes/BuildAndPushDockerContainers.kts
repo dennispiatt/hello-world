@@ -11,6 +11,10 @@ To apply the patch, change the buildType with id = 'BuildAndPushDockerContainers
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
+    vcs {
+        add(RelativeId("EdFiOdsImplementation"))
+    }
+
     expectSteps {
         powerShell {
             name = "Copy artifact binaries for docker build"
