@@ -2,6 +2,7 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.NuGetPublishStep
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.PowerShellStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
@@ -91,16 +92,76 @@ changeBuildType(RelativeId("BuildWebsites")) {
         }
     }
     steps {
-        insert(1) {
+        update<PowerShellStep>(1) {
+            name = "Add Nuget Source for Codegen Package"
+            clearConditions()
+            formatStderrAsError = false
+            workingDir = "Ed-Fi-ODS-Implementation"
+            scriptMode = script {
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+            }
+        }
+        update<PowerShellStep>(2) {
+            name = "Add Nuget Source for Codegen Package (1)"
+            clearConditions()
+            formatStderrAsError = false
+            scriptMode = script {
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+            }
+            param("jetbrains_powershell_script_file", "")
+        }
+        update<PowerShellStep>(3) {
+            name = "Build Ed-Fi ODS Admin App"
+            clearConditions()
+            workingDir = "Ed-Fi-ODS-AdminApp"
+            scriptMode = script {
+                content = """
+                    .\build.ps1 -Version "%adminApp.version%" -BuildCounter %build.counter% -Command Build -Configuration Release
+                    .\build.ps1 -Command UnitTest -Configuration Release
+                    .\build.ps1 -Version "%adminApp.version%" -BuildCounter %build.counter% -Command Package -Configuration Release
+                    ${'$'}packageDir = "..\Ed-Fi-Ods-Implementation\packages"
+                    if(-not (Test-Path ${'$'}packageDir)) { 
+                    	md ${'$'}packageDir | out-null
+                    }
+                    copy *.nupkg ${'$'}packageDir
+                    ls ${'$'}packageDir
+                """.trimIndent()
+            }
+        }
+        insert(4) {
             powerShell {
-                name = "Add Nuget Source for Codegen Package"
+                name = "Build Ed-Fi ODS API websites and databases"
+                formatStderrAsError = true
                 workingDir = "Ed-Fi-ODS-Implementation"
-                scriptMode = script {
-                    content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
+                scriptMode = file {
+                    path = "build.teamcity.ps1"
                 }
             }
         }
-        update<NuGetPublishStep>(5) {
+        insert(5) {
+            powerShell {
+                name = "Copy Built Binaries for Docker"
+                formatStderrAsError = true
+                scriptMode = script {
+                    content = """
+                        Write-Host "Copying WebApi"
+                        copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.WebApi.*.nupkg Ed-Fi-ODS-Docker\Web-Ods-Api\Alpine\mssql\app.zip
+                        
+                        Write-Host "Copying SwaggerUI"
+                        copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SwaggerUI.*.nupkg  Ed-Fi-ODS-Docker\Web-SwaggerUI\Alpine\app.zip
+                        
+                        Write-Host "Copying SandboxAdmin"
+                        copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SandboxAdmin.*.nupkg Ed-Fi-ODS-Docker\Web-Sandbox-Admin\Alpine\mssql\app.zip
+                        
+                        Write-Host "Copying AdminApp"
+                        copy Ed-Fi-ODS-AdminApp\EdFi.Suite3.ODS.AdminApp.Web.*.nupkg Ed-Fi-ODS-Docker\Web-Ods-AdminApp\Alpine\mssql\app.zip
+                        
+                        ls -r Ed-Fi-ODS-Docker\app.zip
+                    """.trimIndent()
+                }
+            }
+        }
+        update<NuGetPublishStep>(6) {
             clearConditions()
             apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
         }
