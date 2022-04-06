@@ -81,9 +81,9 @@ changeBuildType(RelativeId("GenerateTemplates")) {
         update<PowerShellStep>(1) {
             name = "Add Nuget Source for Codegen Package"
             clearConditions()
-            formatStderrAsError = false
             scriptMode = script {
                 content = """
+                    write-host "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text"
                     & dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text
                     if (-not (Test-Path ".\tools")){
                         New-Item ".\tools" -ItemType Directory
