@@ -13,7 +13,7 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
     vcs {
         add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
-        add(RelativeId("EdFiOdsDocker"))
+        add(RelativeId("EdFiOdsDocker"), "+:. => Ed-Fi-ODS-Docker")
     }
 
     expectSteps {
