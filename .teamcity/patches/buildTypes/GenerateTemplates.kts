@@ -13,12 +13,6 @@ To apply the patch, change the buildType with id = 'GenerateTemplates'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("GenerateTemplates")) {
-    params {
-        add {
-            param("teamcity.github.personalAccessToken", "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")
-        }
-    }
-
     vcs {
         remove(RelativeId("SvnHttpEduSvn01educStateMnUsSvnAsdcsTrunkMainV52"))
         add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
