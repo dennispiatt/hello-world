@@ -31,6 +31,12 @@ changeProject(DslContext.projectId) {
         update {
             param("nexus.nuget.package.source", "%mn-mde-edfi.nexus.host%/repository/Ed-Fi/")
         }
+        expect {
+            param("octopus.nuget.apikey", "API-VOYBXBWTTZSUKVD6QPEAMLCF2VGLRXTF")
+        }
+        update {
+            param("octopus.nuget.apikey", "%OctopusAPIKey%")
+        }
     }
 
     features {
