@@ -96,7 +96,6 @@ changeBuildType(RelativeId("BuildWebsites")) {
             name = "Add Nuget Source for Codegen Package"
             clearConditions()
             formatStderrAsError = false
-            workingDir = "Ed-Fi-ODS-Implementation"
             scriptMode = script {
                 content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
             }
