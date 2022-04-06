@@ -101,15 +101,6 @@ changeBuildType(RelativeId("BuildWebsites")) {
             }
         }
         update<PowerShellStep>(2) {
-            name = "Add Nuget Source for Codegen Package (1)"
-            clearConditions()
-            formatStderrAsError = false
-            scriptMode = script {
-                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
-            }
-            param("jetbrains_powershell_script_file", "")
-        }
-        update<PowerShellStep>(3) {
             name = "Build Ed-Fi ODS Admin App"
             clearConditions()
             workingDir = "Ed-Fi-ODS-AdminApp"
@@ -125,6 +116,16 @@ changeBuildType(RelativeId("BuildWebsites")) {
                     copy *.nupkg ${'$'}packageDir
                     ls ${'$'}packageDir
                 """.trimIndent()
+            }
+            param("jetbrains_powershell_script_file", "")
+        }
+        update<PowerShellStep>(3) {
+            name = "Add Nuget Source for Codegen Package (1)"
+            clearConditions()
+            formatStderrAsError = false
+            workingDir = "Ed-Fi-ODS-Implementation"
+            scriptMode = script {
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken%"
             }
         }
         insert(4) {
