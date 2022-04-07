@@ -83,11 +83,19 @@ changeBuildType(RelativeId("GenerateTemplates")) {
             clearConditions()
             scriptMode = script {
                 content = """
-                    ${'$'}sourceList = & dotnet nuget list source
+                    ${'$'}nexusSource = '%nexus.nuget.package.source%'
+                    ${'$'}nexusUser = '%nexus.nuget.username%'
+                    ${'$'}nexusPassword = @'
+                    %nexus.nuget.password%
+                    '@
                     
-                    ${'$'}repos = ${'$'}SourceList | Select-String -Pattern "(?<=\s*\d+\.\s+)github(?=\s\[(?:Enabled|Disabled)\])" -Context(0,1)
+                    ${'$'}sourceList = & dotnet nuget list source
+                    ${'$'}repos = ${'$'}sourceList | Select-String -Pattern "(?<=\s*\d+\.\s+)nexus(?=\s\[(?:Enabled|Disabled)\])" -Context(0,1)
                     if (${'$'}repos.Matches.Count -ne 0) {
-                        & dotnet nuget remove source github
+                        & dotnet nuget update source nexus -s ${'$'}nexusSource -u ${'$'}nexusUser -p ${'$'}nexusPassword --store-password-in-clear-text
+                    }
+                    else {
+                        & dotnet nuget add source ${'$'}nexusSource -n nexus -u ${'$'}nexusUser -p ${'$'}nexusPassword --store-password-in-clear-text
                     }
                     
                     if (-not (Test-Path ".\tools")){
@@ -95,7 +103,7 @@ changeBuildType(RelativeId("GenerateTemplates")) {
                     }
                     ${'$'}toolPath = Resolve-Path ".\tools"
                     
-                    & dotnet tool install EdFi.Ods.CodeGen --tool-path ${'$'}toolPath --add-source %nexus.nuget.package.source%
+                    & dotnet tool install EdFi.Ods.CodeGen --tool-path ${'$'}toolPath
                 """.trimIndent()
             }
             noProfile = true
