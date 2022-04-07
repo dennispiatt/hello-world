@@ -141,5 +141,16 @@ changeBuildType(RelativeId("BuildWebsites")) {
             clearConditions()
             apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
         }
+        insert(6) {
+            powerShell {
+                name = "Add Nuget Source for Codegen Package"
+                formatStderrAsError = true
+                workingDir = "Ed-Fi-ODS-Implementation"
+                scriptMode = script {
+                    content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config"
+                }
+                param("jetbrains_powershell_script_file", "")
+            }
+        }
     }
 }
