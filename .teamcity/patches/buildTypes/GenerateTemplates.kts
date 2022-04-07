@@ -83,13 +83,19 @@ changeBuildType(RelativeId("GenerateTemplates")) {
             clearConditions()
             scriptMode = script {
                 content = """
-                    write-host "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text"
-                    & dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text
+                    ${'$'}sourceList = & dotnet nuget list source
+                    
+                    ${'$'}repos = ${'$'}SourceList | Select-String -Pattern "(?<=\s*\d+\.\s+)github(?=\s\[(?:Enabled|Disabled)\])" -Context(0,1)
+                    if (${'$'}repos.Matches.Count -ne 0) {
+                        & dotnet nuget remove source github
+                    }
+                    
                     if (-not (Test-Path ".\tools")){
                         New-Item ".\tools" -ItemType Directory
                     }
                     ${'$'}toolPath = Resolve-Path ".\tools"
-                    & dotnet tool install EdFi.Ods.CodeGen --tool-path ${'$'}toolPath
+                    
+                    & dotnet tool install EdFi.Ods.CodeGen --tool-path ${'$'}toolPath --add-source %nexus.nuget.package.source%
                 """.trimIndent()
             }
             noProfile = true
