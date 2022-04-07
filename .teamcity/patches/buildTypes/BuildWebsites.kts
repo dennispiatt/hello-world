@@ -97,26 +97,48 @@ changeBuildType(RelativeId("BuildWebsites")) {
             param("jetbrains_powershell_script_file", "")
         }
         update<PowerShellStep>(2) {
+            name = "Add Nuget Source for Codegen Package"
             clearConditions()
-            param("jetbrains_powershell_script_code", "")
+            scriptMode = script {
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config"
+            }
+            param("jetbrains_powershell_script_file", "")
         }
         update<PowerShellStep>(3) {
+            name = "Build Ed-Fi ODS API websites and databases"
             clearConditions()
+            workingDir = "Ed-Fi-ODS-Implementation"
+            scriptMode = file {
+                path = "build.teamcity.ps1"
+            }
+            param("jetbrains_powershell_script_code", "")
         }
-        update<NuGetPublishStep>(4) {
+        insert(4) {
+            powerShell {
+                name = "Copy Built Binaries for Docker"
+                formatStderrAsError = true
+                scriptMode = script {
+                    content = """
+                        Write-Host "Copying WebApi"
+                        copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.WebApi.*.nupkg Ed-Fi-ODS-Docker\Web-Ods-Api\Alpine\mssql\app.zip
+                        
+                        Write-Host "Copying SwaggerUI"
+                        copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SwaggerUI.*.nupkg  Ed-Fi-ODS-Docker\Web-SwaggerUI\Alpine\app.zip
+                        
+                        Write-Host "Copying SandboxAdmin"
+                        copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SandboxAdmin.*.nupkg Ed-Fi-ODS-Docker\Web-Sandbox-Admin\Alpine\mssql\app.zip
+                        
+                        Write-Host "Copying AdminApp"
+                        copy Ed-Fi-ODS-AdminApp\EdFi.Suite3.ODS.AdminApp.Web.*.nupkg Ed-Fi-ODS-Docker\Web-Ods-AdminApp\Alpine\mssql\app.zip
+                        
+                        ls -r Ed-Fi-ODS-Docker\app.zip
+                    """.trimIndent()
+                }
+            }
+        }
+        update<NuGetPublishStep>(5) {
             clearConditions()
             apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
-        }
-        insert(5) {
-            powerShell {
-                name = "Add Nuget Source for Codegen Package"
-                formatStderrAsError = true
-                workingDir = "Ed-Fi-ODS-Implementation"
-                scriptMode = script {
-                    content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config"
-                }
-                param("jetbrains_powershell_script_file", "")
-            }
         }
     }
 }
