@@ -82,29 +82,7 @@ changeBuildType(RelativeId("GenerateTemplates")) {
             name = "Add Nuget Source for Codegen Package"
             clearConditions()
             scriptMode = script {
-                content = """
-                    ${'$'}nexusSource = '%nexus.nuget.package.source%'
-                    ${'$'}nexusUser = '%nexus.nuget.username%'
-                    ${'$'}nexusPassword = @'
-                    %nexus.nuget.password%
-                    '@
-                    
-                    ${'$'}sourceList = & dotnet nuget list source
-                    ${'$'}repos = ${'$'}sourceList | Select-String -Pattern "(?<=\s*\d+\.\s+)nexus(?=\s\[(?:Enabled|Disabled)\])" -Context(0,1)
-                    if (${'$'}repos.Matches.Count -ne 0) {
-                        & dotnet nuget update source nexus -s ${'$'}nexusSource -u ${'$'}nexusUser -p ${'$'}nexusPassword --store-password-in-clear-text
-                    }
-                    else {
-                        & dotnet nuget add source ${'$'}nexusSource -n nexus -u ${'$'}nexusUser -p ${'$'}nexusPassword --store-password-in-clear-text
-                    }
-                    
-                    if (-not (Test-Path ".\tools")){
-                        New-Item ".\tools" -ItemType Directory
-                    }
-                    ${'$'}toolPath = Resolve-Path ".\tools"
-                    
-                    & dotnet tool install EdFi.Ods.CodeGen --tool-path ${'$'}toolPath
-                """.trimIndent()
+                content = "& dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text"
             }
             noProfile = true
             param("jetbrains_powershell_script_file", "")
