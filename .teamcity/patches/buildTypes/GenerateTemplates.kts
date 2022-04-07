@@ -82,7 +82,7 @@ changeBuildType(RelativeId("GenerateTemplates")) {
             name = "Add Nuget Source for Codegen Package"
             clearConditions()
             scriptMode = script {
-                content = "& dotnet nuget add source https://nuget.pkg.github.com/mn-mde-edfi/index.json -n github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config"
+                content = "& dotnet nuget add source https://nuget.pkg.github.com/mn-mde-edfi/index.json -n codegen -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config"
             }
             noProfile = true
             param("jetbrains_powershell_script_file", "")
