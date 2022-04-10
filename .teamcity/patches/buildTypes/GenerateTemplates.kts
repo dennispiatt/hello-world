@@ -101,6 +101,7 @@ changeBuildType(RelativeId("GenerateTemplates")) {
         update<NuGetPublishStep>(3) {
             clearConditions()
             apiKey = "credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952"
+            args = "-Timeout 600"
         }
     }
 }
