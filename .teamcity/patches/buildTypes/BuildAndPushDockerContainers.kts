@@ -277,6 +277,17 @@ changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
                 """.trimIndent()
             }
         }
+        update<PowerShellStep>(3) {
+            clearConditions()
+            scriptMode = script {
+                content = """
+                    Get-ChildItem *.tar | ForEach-Object { 
+                        write-host "uploading ${'$'}_"
+                        curl --user "${'$'}("%nexus.nuget.username%"):${'$'}("%nexus.nuget.password%")" --upload-file "${'$'}_" %mn-mde-edfi.nexus.host%/repository/edfi-raw/ 2>&1
+                    }
+                """.trimIndent()
+            }
+        }
         update<BuildStep>(5) {
             clearConditions()
             param("secure:octopus_apikey", "credentialsJSON:e6aacf31-740c-42fb-831f-2257142b455a")
