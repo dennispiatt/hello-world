@@ -13,7 +13,7 @@ create(DslContext.projectId, GitVcsRoot({
     id("EdFiStandard")
     name = "Ed-Fi-Standard"
     url = "https://github.com/mn-mde-edfi/Ed-Fi-Standard"
-    branch = "refs/heads/UpdatetesToAllowSuccessfulBuild"
+    branch = "refs/heads/main-v33a"
     branchSpec = "+:refs/heads(*)"
     authMethod = password {
         userName = "dennispiatt"
