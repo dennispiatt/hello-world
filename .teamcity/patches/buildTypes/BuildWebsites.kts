@@ -19,7 +19,7 @@ changeBuildType(RelativeId("BuildWebsites")) {
         add(RelativeId("EdFiOdsAdminApp"), "+:. => Ed-Fi-ODS-AdminApp")
         add(RelativeId("EdFiOdsImplementation"), "+:. => Ed-Fi-ODS-Implementation")
         add(RelativeId("EdFiStandard"), "+:. => Ed-Fi-Standard")
-        add(RelativeId("EdFiOdsDocker"))
+        add(RelativeId("EdFiOdsDocker"), "+:. => Ed-Fi-ODS-Docker")
     }
 
     expectSteps {
