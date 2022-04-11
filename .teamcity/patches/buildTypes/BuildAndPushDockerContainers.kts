@@ -217,4 +217,25 @@ changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
             param("secure:octopus_apikey", "credentialsJSON:e6aacf31-740c-42fb-831f-2257142b455a")
         }
     }
+
+    dependencies {
+        expect(RelativeId("BuildWebsites")) {
+            artifacts {
+                buildRule = lastSuccessful()
+                cleanDestination = true
+                artifactRules = """+:* => Ed-Fi-ODS-Implementation\packages"""
+            }
+        }
+        update(RelativeId("BuildWebsites")) {
+            snapshot {
+            }
+
+            artifacts {
+                buildRule = lastSuccessful()
+                cleanDestination = true
+                artifactRules = """+:* => Ed-Fi-ODS-Implementation\packages"""
+            }
+        }
+
+    }
 }
