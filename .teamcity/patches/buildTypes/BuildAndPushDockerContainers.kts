@@ -2,6 +2,8 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildStep
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.DockerSupportFeature
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.dockerSupport
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.PowerShellStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
@@ -278,6 +280,21 @@ changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
         update<BuildStep>(5) {
             clearConditions()
             param("secure:octopus_apikey", "credentialsJSON:e6aacf31-740c-42fb-831f-2257142b455a")
+        }
+    }
+
+    features {
+        val feature1 = find<DockerSupportFeature> {
+            dockerSupport {
+                loginToRegistry = on {
+                    dockerRegistryId = "PROJECT_EXT_2"
+                }
+            }
+        }
+        feature1.apply {
+            loginToRegistry = on {
+                dockerRegistryId = "PROJECT_EXT_5"
+            }
         }
     }
 
