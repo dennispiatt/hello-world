@@ -322,7 +322,6 @@ changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
             }
 
             artifacts {
-                buildRule = lastSuccessful()
                 cleanDestination = true
                 artifactRules = """+:* => Ed-Fi-ODS-Implementation\packages"""
             }
