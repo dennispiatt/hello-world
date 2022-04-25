@@ -30,6 +30,15 @@ Ed-Fi-ODS-Implementation/Application/SecurityConfigurationTool/EdFi.Ods.Security
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
+      <runner id="RUNNER_14" name="Publish NuGet packages to Nexus" type="jb.nuget.publish">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.publish.files" value="Ed-Fi-ODS-Implementation\packages\*.nupkg" />
+          <param name="nuget.publish.source" value="%nexus.nuget.package.source%" />
+          <param name="secure:nuget.api.key" value="credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsLegacy">
