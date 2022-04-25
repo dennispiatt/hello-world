@@ -3,7 +3,9 @@
   <name>3. Build Key Retrieval Web App</name>
   <description />
   <settings>
-    <parameters />
+    <parameters>
+      <param name="keyRetrieval.version" value="5.2.%build.number%" />
+    </parameters>
     <build-runners>
       <runner id="RUNNER_12" name="Build Key Retrieval Web Site" type="dotnet">
         <parameters>
