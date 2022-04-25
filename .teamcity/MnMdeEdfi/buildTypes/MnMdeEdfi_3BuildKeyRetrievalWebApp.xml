@@ -12,7 +12,7 @@
           <param name="command" value="msbuild" />
           <param name="configuration" value="%buildConfiguration%" />
           <param name="dotNetCoverage.dotCover.home.path" value="%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%" />
-          <param name="msbuild.version" value="MSBuild_CrossPlatform" />
+          <param name="msbuild.version" value="MSBuild_16_Windows" />
           <param name="paths" value="Ed-Fi-ODS-Implementation\Application\EdFi.Ods.SecurityConfiguration.KeyRetrieval.sln" />
           <param name="runtime" value="win" />
           <param name="teamcity.step.mode" value="default" />
