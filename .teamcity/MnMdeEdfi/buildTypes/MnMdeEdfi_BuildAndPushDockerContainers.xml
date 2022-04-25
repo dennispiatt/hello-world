@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>2. Build and push Docker images</name>
+  <description>Builds docker containers for Ed-Fi websites</description>
+  <settings>
+    <options>
+      <option name="buildNumberPattern" value="%dep.MnMdeEdfi_BuildWebsites.build.counter%" />
+      <option name="cleanBuild" value="true" />
+    </options>
+    <disabled-settings>
+      <setting-ref ref="RUNNER_3" />
+    </disabled-settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_1" name="Copy artifact binaries for docker build" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[ls Ed-Fi-ODS-Implementation/packages/*.nupkg
+
+Write-Host "Copying WebApi"
+copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.WebApi.*.nupkg Ed-Fi-Ods-Docker\Web-Ods-Api\Alpine\mssql\app.zip
+
+Write-Host "Copying SwaggerUI"
+copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SwaggerUI.*.nupkg  Ed-Fi-Ods-Docker\Web-SwaggerUI\Alpine\app.zip
+
+Write-Host "Copying SandboxAdmin"
+copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SandboxAdmin.*.nupkg Ed-Fi-Ods-Docker\Web-Sandbox-Admin\Alpine\mssql\app.zip
+
+Write-Host "Copying AdminApp"
+copy Ed-Fi-ODS-Implementation\packages\EdFi.Suite3.ODS.AdminApp.Web.*.nupkg Ed-Fi-Ods-Docker\Web-Ods-AdminApp\Alpine\mssql\app.zip
+
+# ls -r Ed-Fi-Ods-Docker\app.zip]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_2" name="Build Docker Images" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[$ErrorActionPreference = "Stop"
+$repo = "nexus"
+$imageName = "edfi-docker"
+$schoolYear = "%school.year%"
+$buildCounter = "%build.counter%"
+
+Write-Host "docker build admin app"
+$imageName = "ods-api-web-admin-app"
+
+$User = "%nexus.nuget.username%"
+$PWord = ConvertTo-SecureString -String "%nexus.nuget.password%" -AsPlainText -Force
+$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $PWord
+$url = "%mn-mde-edfi.nexus.host%/repository/edfi-raw/ssl.zip"
+
+Invoke-WebRequest -Uri $url -Credential $Credential -AllowUnencryptedAuthentication -OutFile ./Web-Ods-AdminApp/Alpine/mssql/ssl.zip  
+
+docker build -t $imageName ./Web-Ods-AdminApp/Alpine/mssql
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+Write-Host "docker build ods web api"
+$imageName = "ods-api-web-api"
+docker build -t $imageName ./Web-Ods-Api/Alpine/mssql
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+Write-Host "docker build sandbox admin"
+$imageName = "ods-api-web-sandbox-admin"
+docker build -t $imageName ./Web-Sandbox-Admin/Alpine/mssql
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+Write-Host "docker build swagger"
+$imageName = "ods-api-web-swagger-ui"
+docker build -t $imageName ./Web-SwaggerUI/Alpine
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+ls *.tar | Out-Host]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Ed-Fi-Ods-Docker" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_3" name="Build Docker Images WIP" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[$ErrorActionPreference = "Stop"
+$repo = "nexus"
+$imageName = "edfi-docker"
+$schoolYear = "%school.year%"
+$buildCounter = "%build.counter%"
+
+Write-Host "docker build admin app"
+$imageName = "ods-api-web-admin-app"
+
+$User = "%nexus.nuget.username%"
+$PWord = ConvertTo-SecureString -String "%nexus.nuget.password%" -AsPlainText -Force
+$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $User, $PWord
+$url = "http://edu-dockeru01.educ.state.mn.us:8081/repository/edfi-raw/ssl.zip"
+
+Test-Connection edu-dockeru01
+"%nexus.nuget.password%" | docker login "%nexus.docker.feed%" --username "%nexus.nuget.username%" --password-stdin
+
+Invoke-WebRequest -Uri $url -Credential $Credential -AllowUnencryptedAuthentication -OutFile ./Web-Ods-AdminApp/Alpine/mssql/ssl.zip  
+
+docker build -t $imageName ./Web-Ods-AdminApp/Alpine/mssql
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+
+# docker tag $imageName "http://%nexus.docker.feed%/$($imageName):%school.year%.%build.counter%"
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+
+docker tag $imageName "%nexus.docker.feed%/$($imageName):latest"
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+
+Write-Host "docker image push --all-tags %nexus.docker.feed%/$($imageName)"
+docker push --all-tags "%nexus.docker.feed%/$($imageName)"
+# docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+Write-Host "docker build ods web api"
+$imageName = "ods-api-web-api"
+docker build -t $imageName ./Web-Ods-Api/Alpine/mssql
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+# docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+Write-Host "docker build sandbox admin"
+$imageName = "ods-api-web-sandbox-admin"
+docker build -t $imageName ./Web-Sandbox-Admin/Alpine/mssql
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+# docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+Write-Host "docker build swagger"
+$imageName = "ods-api-web-swagger-ui"
+docker build -t $imageName ./Web-SwaggerUI/Alpine
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+docker tag $imageName $repo/$($imageName):latest
+if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+# docker save $repo/$($imageName):latest -o "$($imageName).tar"
+
+ls *.tar | Out-Host]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Ed-Fi-Ods-Docker" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_4" name="Upload saved Docker images to Nexus" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[Get-ChildItem *.tar | ForEach-Object { 
+    write-host "uploading $_"
+    curl --user "$("%nexus.nuget.username%"):$("%nexus.nuget.password%")" --upload-file "$_" %mn-mde-edfi.nexus.host%/repository/edfi-raw/ 2>&1
+}]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Ed-Fi-Ods-Docker" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_5" name="Octopack Docker IaC" type="octopus.pack.package">
+        <parameters>
+          <param name="octopus_packageformat" value="NuPkg" />
+          <param name="octopus_packageid" value="MN.EdFi.Octopus.Deploy" />
+          <param name="octopus_packageoutputpath" value="Octopack" />
+          <param name="octopus_packagesourcepath" value="Ed-Fi-Ods-Docker/Octopus" />
+          <param name="octopus_packageversion" value="%odsapi.build.package.webApi.version%" />
+          <param name="octopus_publishartifacts" value="true" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6" name="Octopush IaC to Octopus package repo" type="octopus.push.package">
+        <parameters>
+          <param name="octopus_forcepush" value="false" />
+          <param name="octopus_host" value="%octopus.nuget.package.source%" />
+          <param name="octopus_packagepaths" value="Octopack/*.nupkg" />
+          <param name="octopus_publishartifacts" value="true" />
+          <param name="octopus_space_name" value="%octopus.nuget.space%" />
+          <param name="secure:octopus_apikey" value="credentialsJSON:e6aacf31-740c-42fb-831f-2257142b455a" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsImplementation">
+        <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-Implementation" />
+      </vcs-entry-ref>
+      <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsDocker">
+        <checkout-rule rule="+:. =&gt; Ed-Fi-Ods-Docker" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="TRIGGER_1" type="buildDependencyTrigger">
+        <parameters>
+          <param name="afterSuccessfulBuildOnly" value="true" />
+          <param name="branchFilter" value="+:&lt;default&gt;" />
+          <param name="dependsOn" value="MnMdeEdfi_BuildWebsites" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="BUILD_EXT_1" type="DockerSupport">
+        <parameters>
+          <param name="login2registry" value="PROJECT_EXT_5" />
+          <param name="loginCheckbox" value="on" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <artifact-dependencies>
+      <dependency id="ARTIFACT_DEPENDENCY_1" sourceBuildTypeId="MnMdeEdfi_BuildWebsites" cleanDestination="true">
+        <revisionRule name="sameChainOrLastFinished" revision="latest.sameChainOrLastFinished" />
+        <artifact sourcePath="+:* =&gt; Ed-Fi-ODS-Implementation\packages" />
+      </dependency>
+    </artifact-dependencies>
+    <dependencies>
+      <depend-on sourceBuildTypeId="MnMdeEdfi_BuildWebsites">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+    </dependencies>
+    <cleanup />
+  </settings>
+</build-type>
+
