@@ -16,6 +16,20 @@
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
+      <runner id="RUNNER_13" name="Package Key Retrieval Site" type="jb.nuget.pack">
+        <parameters>
+          <param name="nuget.pack.as.artifact" value="true" />
+          <param name="nuget.pack.output.clean" value="true" />
+          <param name="nuget.pack.output.directory" value="packages" />
+          <param name="nuget.pack.project.dir" value="as_is" />
+          <param name="nuget.pack.properties" value="Configuration=%buildConfiguration%" />
+          <param name="nuget.pack.specFile"><![CDATA[Ed-Fi-ODS-Implementation/Application/SecurityConfigurationTool
+Ed-Fi-ODS-Implementation/Application/SecurityConfigurationTool/EdFi.Ods.SecurityConfiguration.KeyRetrieval.Web/EdFi.Ods.SecurityConfiguration.KeyRetrieval.Web.nuspec]]></param>
+          <param name="nuget.pack.version" value="%keyRetrieval.version%" />
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsLegacy">
