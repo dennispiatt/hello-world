@@ -4,7 +4,7 @@
   <description />
   <settings>
     <parameters>
-      <param name="keyRetrieval.version" value="5.2.%build.number%" />
+      <param name="keyRetrieval.version" value="5.2.%build.counter%" />
     </parameters>
     <build-runners>
       <runner id="RUNNER_12" name="Build Key Retrieval Web Site" type="dotnet">
