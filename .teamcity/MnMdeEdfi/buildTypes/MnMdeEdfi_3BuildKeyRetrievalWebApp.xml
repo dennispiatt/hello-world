@@ -7,6 +7,7 @@
     <build-runners />
     <vcs-settings>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsLegacy" />
+      <vcs-entry-ref root-id="MnMdeEdfi_LegacyEdFiOdsImplementation" />
     </vcs-settings>
     <requirements />
     <build-triggers />
