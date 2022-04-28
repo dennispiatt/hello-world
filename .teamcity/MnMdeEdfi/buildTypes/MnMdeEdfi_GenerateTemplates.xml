@@ -93,7 +93,7 @@ $ACL | Set-Acl -Path $backupPath
         <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-Implementation" />
       </vcs-entry-ref>
       <vcs-entry-ref root-id="MnMdeEdfi_HttpsGithubComMnMdeEdfiEdFiOdsRefsHeadsDevelopMnV31">
-        <checkout-rule rule="+:Artifacts/MsSql =&gt; Ed-Fi-ODS/Artifacts/MsSql" />
+        <checkout-rule rule="+:. =&gt; Ed-Fi-ODS" />
       </vcs-entry-ref>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiStandard">
         <checkout-rule rule="+:. =&gt; Ed-Fi-Standard" />
