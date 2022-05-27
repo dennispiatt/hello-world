@@ -41,6 +41,15 @@ Ed-Fi-ODS-Implementation/Application/SecurityConfigurationTool/EdFi.Ods.Security
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
+      <runner id="RUNNER_15" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="sln.path" value="Ed-Fi-ODS-Implementation/Application/EdFi.Ods.SecurityConfiguration.KeyRetrieval.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsLegacy">
