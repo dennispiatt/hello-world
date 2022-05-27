@@ -7,6 +7,15 @@
       <param name="keyRetrieval.version" value="5.2.%build.counter%" />
     </parameters>
     <build-runners>
+      <runner id="RUNNER_15" name="" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="sln.path" value="Ed-Fi-ODS-Implementation/Application/EdFi.Ods.SecurityConfiguration.KeyRetrieval.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
       <runner id="RUNNER_12" name="Build Key Retrieval Web Site" type="dotnet">
         <parameters>
           <param name="command" value="msbuild" />
@@ -38,15 +47,6 @@ Ed-Fi-ODS-Implementation/Application/SecurityConfigurationTool/EdFi.Ods.Security
           <param name="nuget.publish.files" value="packages\*.nupkg" />
           <param name="nuget.publish.source" value="%nexus.nuget.package.source%" />
           <param name="secure:nuget.api.key" value="credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
-      <runner id="RUNNER_15" name="" type="jb.nuget.installer">
-        <parameters>
-          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
-          <param name="nuget.updatePackages.mode" value="sln" />
-          <param name="nuget.use.restore" value="restore" />
-          <param name="sln.path" value="Ed-Fi-ODS-Implementation/Application/EdFi.Ods.SecurityConfiguration.KeyRetrieval.sln" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
