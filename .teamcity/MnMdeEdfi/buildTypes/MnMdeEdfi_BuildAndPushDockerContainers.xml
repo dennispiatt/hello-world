@@ -211,9 +211,6 @@ ls *.tar | Out-Host]]></param>
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsDocker">
-        <checkout-rule rule="+:. =&gt; Ed-Fi-Ods-Docker" />
-      </vcs-entry-ref>
       <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
     </vcs-settings>
     <requirements />
