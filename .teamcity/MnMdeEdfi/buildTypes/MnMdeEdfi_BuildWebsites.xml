@@ -33,6 +33,20 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
+      <runner id="RUNNER_17" name="" type="CalculatePackageVersion32_svn">
+        <parameters>
+          <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
+          <param name="cpv.MajorVersion" value="%MajorPackageVersion%" />
+          <param name="cpv.MinorVersion" value="%MinorPackageVersion%" />
+          <param name="cpv.OverridePackageVersion" value="false" />
+          <param name="cpv.PackageVersion" value="%PackageVersion%" />
+          <param name="cpv.PatchVersion" value="%PatchPackageVersion%" />
+          <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
+          <param name="cpv.SetBuildNumber" value="true" />
+          <param name="cpv.TrunkName" value="%TrunkName%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
       <runner id="RUNNER_2" name="Build Ed-Fi ODS Admin App" type="jetbrains_powershell">
         <parameters>
           <param name="jetbrains_powershell_errorToError" value="true" />
@@ -105,20 +119,6 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
           <param name="nuget.publish.files" value="Ed-Fi-ODS-Implementation\packages\*.nupkg" />
           <param name="nuget.publish.source" value="%nexus.nuget.package.source%" />
           <param name="secure:nuget.api.key" value="credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
-      <runner id="RUNNER_17" name="" type="CalculatePackageVersion32_svn">
-        <parameters>
-          <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
-          <param name="cpv.MajorVersion" value="%MajorPackageVersion%" />
-          <param name="cpv.MinorVersion" value="%MinorPackageVersion%" />
-          <param name="cpv.OverridePackageVersion" value="false" />
-          <param name="cpv.PackageVersion" value="%PackageVersion%" />
-          <param name="cpv.PatchVersion" value="%PatchPackageVersion%" />
-          <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
-          <param name="cpv.SetBuildNumber" value="true" />
-          <param name="cpv.TrunkName" value="%TrunkName%" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
