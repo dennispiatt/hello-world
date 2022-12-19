@@ -28,6 +28,7 @@
     <param name="odsapi.build.runPostman" value="false" />
     <param name="odsapi.build.runSmokeTest" value="false" />
     <param name="school.year" value="2023" />
+    <param name="trunk" value="main-v52" />
   </parameters>
   <project-extensions>
     <extension id="PROJECT_EXT_1" type="versionedSettings">
