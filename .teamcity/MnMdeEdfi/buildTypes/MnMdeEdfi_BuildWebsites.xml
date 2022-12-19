@@ -125,6 +125,7 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsDocker">
         <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-Docker" />
       </vcs-entry-ref>
+      <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
     </vcs-settings>
     <requirements>
       <equals id="RQ_2" name="env.OS" value="Windows_NT" />
