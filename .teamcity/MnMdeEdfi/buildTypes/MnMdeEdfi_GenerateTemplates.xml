@@ -89,9 +89,6 @@ $ACL | Set-Acl -Path $backupPath
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsImplementation">
-        <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-Implementation" />
-      </vcs-entry-ref>
       <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
     </vcs-settings>
     <requirements />
