@@ -90,7 +90,9 @@ $ACL | Set-Acl -Path $backupPath
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
-      <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk" />
+      <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk">
+        <checkout-rule rule="+:. =&gt; .x" />
+      </vcs-entry-ref>
     </vcs-settings>
     <requirements />
     <build-triggers>
