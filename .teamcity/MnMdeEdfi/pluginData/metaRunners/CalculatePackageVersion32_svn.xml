@@ -68,9 +68,6 @@ Function Get-PackageVersion {
 		"^(?:$defaultTrunkName)_(?<channel>\w*)`$" {
 			#channel trunk
 			$versionSuffix = $($Matches.channel)
-			if ($semver -ne "2.0.0") {
-				$versionSuffix = "b$buildCounterString$versionSuffix"
-			}	
 			$packageVersion = "$packageVersion-$versionSuffix"
 			break
 		}
