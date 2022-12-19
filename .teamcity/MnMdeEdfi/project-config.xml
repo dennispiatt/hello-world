@@ -26,7 +26,7 @@
     <param name="odsapi.build.package.sandboxAdmin.id" value="MN.EdFi.Ods.SandboxAdmin" />
     <param name="odsapi.build.package.sandboxAdmin.version" value="%PackageVersion%" />
     <param name="odsapi.build.package.swaggerUI.id" value="MN.EdFi.Ods.SwaggerUI" />
-    <param name="odsapi.build.package.swaggerUI.version" value="5.2.%build.counter%" />
+    <param name="odsapi.build.package.swaggerUI.version" value="%PackageVersion%" />
     <param name="odsapi.build.package.webApi.id" value="MN.EdFi.Ods.WebApi" />
     <param name="odsapi.build.package.webApi.version" value="5.2.%build.counter%" />
     <param name="odsapi.build.runDotnetTest" value="false" />
