@@ -3,6 +3,7 @@
   <name>mn-mde-edfi</name>
   <parameters>
     <param name="OverrideTrunkName" value="%TrunkName%" />
+    <param name="SemVerVersion" value="2.0.0" />
     <param name="TrunkName" value="main-v52" />
     <param name="env.MNIT_TeamCity_Build" value="true" />
     <param name="env.msbuild_buildConfiguration" value="Release" />
