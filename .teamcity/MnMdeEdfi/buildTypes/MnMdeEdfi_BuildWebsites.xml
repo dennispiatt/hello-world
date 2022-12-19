@@ -39,7 +39,7 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
           <param name="cpv.MajorVersion" value="%MajorPackageVersion%" />
           <param name="cpv.MinorVersion" value="%MinorPackageVersion%" />
           <param name="cpv.OverridePackageVersion" value="false" />
-          <param name="cpv.PackageVersion" value="%PackageVersion%" />
+          <param name="cpv.PackageVersion" value="%adminApp.version%" />
           <param name="cpv.PatchVersion" value="%PatchPackageVersion%" />
           <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
           <param name="cpv.SetBuildNumber" value="true" />
