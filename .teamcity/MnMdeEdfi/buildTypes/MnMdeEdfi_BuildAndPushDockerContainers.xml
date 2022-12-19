@@ -70,7 +70,7 @@ $imagesToBuild = @{
     "ods-api-web-swagger-ui"="./Web-SwaggerUI/Alpine"
     }
 
-foreach($imageName in imagesToBuild.Keys) {
+foreach($imageName in $imagesToBuild.Keys) {
     Write-Host "docker $imageName"
     docker build -t $imageName $imageesToBuild[$imageName]
     if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
