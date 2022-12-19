@@ -10,13 +10,13 @@
     <parameters>
       <param name="cpv.MajorVersion" spec="text display='normal' label='Major Version'" value="%MajorPackageVersion%" />
       <param name="cpv.MinorVersion" spec="text display='normal' label='Minor Version'" value="%MinorPackageVersion%" />
-      <param name="cpv.PatchVersion" spec="text display='normal' label='PatchVersion'" value="%PatchPackageVersion%" />
+      <param name="cpv.PatchVersion" spec="text display='normal' label='Patch Version'" value="%PatchPackageVersion%" />
       <param name="cpv.SemVerVersion" spec="text description='SemVer Version' display='normal' label='SemVer Version'" value="%SemVerVersion%" />
       <param name="cpv.PackageVersion" spec="text display='normal' label='Package Version'" value="%PackageVersion%" />
       <param name="cpv.OverridePackageVersion" spec="checkbox label='Override Package Version' display='normal' uncheckedValue='false' checkedValue='true'" value="false" />
       <param name="cpv.SetBuildNumber" spec="checkbox display='normal' label='Set the Build Number with resulting Version' uncheckedValue='false' checkedValue='true'" value="true" />
-      <param name="cpv.TrunkName" spec="text description='Trunk name be used to determine Version' display='normal' label='Branch Name'" value="%OverrideTrunkName%" />
-      <param name="cpv.DefaultTrunkName" spec="text description='Trunk name be used to determine if this is the default Version' display='normal' label='Branch Name'" value="%TrunkName%" />
+      <param name="cpv.TrunkName" spec="text description='Trunk name be used to determine Version' display='normal' label='Trunk Name'" value="%OverrideTrunkName%" />
+      <param name="cpv.DefaultTrunkName" spec="text description='Trunk name be used to determine if this is the default Version' display='normal' label='Default Trunk Name'" value="%TrunkName%" />
     </parameters>
     <build-runners>
       <runner name="Calculate Package Version (svn)" type="jetbrains_powershell">
