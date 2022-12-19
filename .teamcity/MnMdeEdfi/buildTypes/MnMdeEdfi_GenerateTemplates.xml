@@ -98,6 +98,7 @@ $ACL | Set-Acl -Path $backupPath
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiStandard">
         <checkout-rule rule="+:. =&gt; Ed-Fi-Standard" />
       </vcs-entry-ref>
+      <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
     </vcs-settings>
     <requirements />
     <build-triggers>
