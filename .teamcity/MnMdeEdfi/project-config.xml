@@ -3,6 +3,7 @@
   <name>mn-mde-edfi</name>
   <parameters>
     <param name="DefaultTrunkName" value="main-v52" />
+    <param name="MajorPackageVersion" value="5" />
     <param name="SemVerVersion" value="2.0.0" />
     <param name="TrunkName" value="%DefaultTrunkName%" />
     <param name="env.MNIT_TeamCity_Build" value="true" />
