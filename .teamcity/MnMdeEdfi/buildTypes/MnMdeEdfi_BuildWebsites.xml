@@ -7,6 +7,7 @@
       <option name="cleanBuild" value="true" />
     </options>
     <parameters>
+      <param name="adminApp.MajorVersion" value="2" />
       <param name="adminApp.version" value="2.2.%build.counter%" />
       <param name="env.Nuget_ApiKey" value="%nexus.nuget.api.key%" />
       <param name="env.Nuget_Source" value="%nexus.nuget.package.source%" />
