@@ -33,7 +33,7 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
-      <runner id="RUNNER_17" name="" type="CalculatePackageVersion32_svn">
+      <runner id="RUNNER_17" name="Calculate admin app version" type="CalculatePackageVersion32_svn">
         <parameters>
           <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
           <param name="cpv.MajorVersion" value="%MajorPackageVersion%" />
