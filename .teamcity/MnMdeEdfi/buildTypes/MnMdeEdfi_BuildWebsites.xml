@@ -110,9 +110,6 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="MnMdeEdfi_HttpsGithubComMnMdeEdfiEdFiOdsRefsHeadsDevelopMnV31">
-        <checkout-rule rule="+:. =&gt; Ed-Fi-ODS" />
-      </vcs-entry-ref>
       <vcs-entry-ref root-id="MnMdeEdfi_EdFiOdsAdminApp">
         <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-AdminApp" />
       </vcs-entry-ref>
