@@ -117,6 +117,7 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
         <checkout-rule rule="+:Ed-Fi-ODS-Implementation =&gt; Ed-Fi-ODS-Implementation" />
         <checkout-rule rule="+:Ed-Fi-Standard =&gt; Ed-Fi-Standard" />
       </vcs-entry-ref>
+      <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk" />
     </vcs-settings>
     <requirements>
       <equals id="RQ_2" name="env.OS" value="Windows_NT" />
