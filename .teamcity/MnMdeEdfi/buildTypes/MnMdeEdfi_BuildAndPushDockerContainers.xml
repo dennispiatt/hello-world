@@ -46,8 +46,15 @@ $imageName = "edfi-docker"
 $schoolYear = "%school.year%"
 $buildCounter = "%build.counter%"
 
-Write-Host "docker build admin app"
-$imageName = "ods-api-web-admin-app"
+$tagLatest = $true
+$tag = "%build.counter%"
+if ("%TrunkName%" -ne "%DefaultTrunkName%")
+{
+	$tag = "%PackageVersion%"
+    $tagLatest = $false
+}
+
+Write-Host "retrieve ssl zip"
 
 $User = "%nexus.nuget.username%"
 $PWord = ConvertTo-SecureString -String "%nexus.nuget.password%" -AsPlainText -Force
@@ -56,43 +63,28 @@ $url = "%mn-mde-edfi.nexus.host%/repository/edfi-raw/ssl.zip"
 
 Invoke-WebRequest -Uri $url -Credential $Credential -AllowUnencryptedAuthentication -OutFile ./Web-Ods-AdminApp/Alpine/mssql/ssl.zip  
 
-docker build -t $imageName ./Web-Ods-AdminApp/Alpine/mssql
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName):latest
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker save $repo/$($imageName):latest -o "$($imageName).tar"
+$imagesToBuild = @{
+    "ods-api-web-admin-app" = "./Web-Ods-AdminApp/Alpine/mssql"
+    "ods-api-web-api"="./Web-Ods-Api/Alpine/mssql"
+    "ods-api-web-sandbox-admin"="./Web-Sandbox-Admin/Alpine/mssql"
+    "ods-api-web-swagger-ui"="./Web-SwaggerUI/Alpine"
+    }
 
-Write-Host "docker build ods web api"
-$imageName = "ods-api-web-api"
-docker build -t $imageName ./Web-Ods-Api/Alpine/mssql
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName):latest
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker save $repo/$($imageName):latest -o "$($imageName).tar"
-
-Write-Host "docker build sandbox admin"
-$imageName = "ods-api-web-sandbox-admin"
-docker build -t $imageName ./Web-Sandbox-Admin/Alpine/mssql
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName):latest
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker save $repo/$($imageName):latest -o "$($imageName).tar"
-
-Write-Host "docker build swagger"
-$imageName = "ods-api-web-swagger-ui"
-docker build -t $imageName ./Web-SwaggerUI/Alpine
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName).%school.year%:%build.counter%
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker tag $imageName $repo/$($imageName):latest
-if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-docker save $repo/$($imageName):latest -o "$($imageName).tar"
+foreach($imageName in imagesToBuild.Keys) {
+    Write-Host "docker $imageName"
+    docker build -t $imageName $imageesToBuild[$imageName]
+    if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+    docker tag $imageName $repo/$($imageName).%school.year%:$tag
+    if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+    if ($tagLatest) {
+	    docker tag $imageName $repo/$($imageName):latest
+	    if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+	    docker save $repo/$($imageName):latest -o "$($imageName).tar"
+    }
+    else {
+	    docker save $repo/$($imageName).%school.year%:$tag -o "$($imageName).tar"
+    }
+}
 
 ls *.tar | Out-Host]]></param>
           <param name="jetbrains_powershell_script_mode" value="CODE" />
