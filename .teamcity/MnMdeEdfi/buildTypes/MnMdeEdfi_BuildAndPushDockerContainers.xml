@@ -211,7 +211,6 @@ ls *.tar | Out-Host]]></param>
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
       <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk">
         <checkout-rule rule="+:. =&gt; .x" />
       </vcs-entry-ref>
