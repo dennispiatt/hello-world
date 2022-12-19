@@ -58,6 +58,7 @@ Ed-Fi-ODS-Implementation/Application/SecurityConfigurationTool/EdFi.Ods.Security
       <vcs-entry-ref root-id="MnMdeEdfi_LegacyEdFiOdsImplementation">
         <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-Implementation" />
       </vcs-entry-ref>
+      <vcs-entry-ref root-id="MnMdeEdfi_KeyretrievalV52" />
     </vcs-settings>
     <requirements />
     <build-triggers />
