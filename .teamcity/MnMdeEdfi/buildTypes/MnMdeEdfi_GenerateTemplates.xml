@@ -3,6 +3,9 @@
   <name>0. Generate Minimal and Populated Templates</name>
   <description />
   <settings>
+    <options>
+      <option name="buildNumberPattern" value="%PackageVersion%" />
+    </options>
     <disabled-settings>
       <setting-ref ref="TRIGGER_1" />
     </disabled-settings>
