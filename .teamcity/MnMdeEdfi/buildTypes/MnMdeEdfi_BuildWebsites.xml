@@ -126,7 +126,9 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
         <checkout-rule rule="+:. =&gt; Ed-Fi-ODS-Docker" />
       </vcs-entry-ref>
     </vcs-settings>
-    <requirements />
+    <requirements>
+      <equals id="RQ_2" name="env.OS" value="Windows_NT" />
+    </requirements>
     <build-triggers>
       <build-trigger id="TRIGGER_1" type="vcsTrigger">
         <parameters>
