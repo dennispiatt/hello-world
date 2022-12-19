@@ -36,8 +36,8 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
       <runner id="RUNNER_17" name="Calculate admin app version" type="CalculatePackageVersion32_svn">
         <parameters>
           <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
-          <param name="cpv.MajorVersion" value="2" />
-          <param name="cpv.MinorVersion" value="%MinorPackageVersion%" />
+          <param name="cpv.MajorVersion" value="%adminApp.MajorVersion%" />
+          <param name="cpv.MinorVersion" value="%adminApp.MinorVersion%" />
           <param name="cpv.OverridePackageVersion" value="false" />
           <param name="cpv.PackageVersion" value="%adminApp.version%" />
           <param name="cpv.PatchVersion" value="%PatchPackageVersion%" />
