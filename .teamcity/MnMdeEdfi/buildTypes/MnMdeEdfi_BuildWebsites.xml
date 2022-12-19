@@ -54,16 +54,15 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
           <param name="jetbrains_powershell_errorToError" value="true" />
           <param name="jetbrains_powershell_execution" value="PS1" />
           <param name="jetbrains_powershell_noprofile" value="true" />
-          <param name="jetbrains_powershell_script_code"><![CDATA[.\build.ps1 -Version "%adminApp.version%" -BuildCounter %build.counter% -Command Build -Configuration Release
+          <param name="jetbrains_powershell_script_code"><![CDATA[.\build.ps1 -Version "%PackageVersion%" -BuildCounter %build.counter% -Command Build -Configuration Release
 .\build.ps1 -Command UnitTest -Configuration Release
-.\build.ps1 -Version "%adminApp.version%" -BuildCounter %build.counter% -Command Package -Configuration Release
+.\build.ps1 -Version "%PackageVersion%" -BuildCounter %build.counter% -Command Package -Configuration Release
 $packageDir = "..\Ed-Fi-Ods-Implementation\packages"
 if(-not (Test-Path $packageDir)) { 
 	md $packageDir | out-null
 }
 copy *.nupkg $packageDir
 ls $packageDir]]></param>
-          <param name="jetbrains_powershell_script_file" value="" />
           <param name="jetbrains_powershell_script_mode" value="CODE" />
           <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-AdminApp" />
           <param name="teamcity.step.mode" value="default" />
