@@ -9,7 +9,7 @@
     <parameters>
       <param name="adminApp.MajorVersion" value="2" />
       <param name="adminApp.MinorVersion" value="2" />
-      <param name="adminApp.version" value="2.2.%build.counter%" />
+      <param name="adminApp.version" value="%adminApp.MajorVersion%.%adminApp.MinorVersion%.%build.counter%" />
       <param name="env.Nuget_ApiKey" value="%nexus.nuget.api.key%" />
       <param name="env.Nuget_Source" value="%nexus.nuget.package.source%" />
       <param name="env.msbuild_buildConfiguration" value="Release" />
