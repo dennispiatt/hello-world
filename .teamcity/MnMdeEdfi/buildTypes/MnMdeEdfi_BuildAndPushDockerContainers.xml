@@ -72,7 +72,7 @@ $imagesToBuild = @{
 
 foreach($imageName in $imagesToBuild.Keys) {
     Write-Host "docker $imageName"
-    docker build -t $imageName $imageesToBuild[$imageName]
+    docker build -t $imageName $imagesToBuild[$imageName]
     if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
     docker tag $imageName $repo/$($imageName).%school.year%:$tag
     if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
