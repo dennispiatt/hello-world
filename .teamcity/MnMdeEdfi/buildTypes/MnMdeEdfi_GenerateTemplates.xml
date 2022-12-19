@@ -71,7 +71,7 @@ $ACL | Set-Acl -Path $backupPath
       </runner>
       <runner id="RUNNER_16" name="" type="CalculatePackageVersion32_svn">
         <parameters>
-          <param name="cpv.DefaultTrunkName" value="%TrunkName%" />
+          <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
           <param name="cpv.MajorVersion" value="%build.counter%" />
           <param name="cpv.MinorVersion" value="0" />
           <param name="cpv.OverridePackageVersion" value="false" />
@@ -79,7 +79,7 @@ $ACL | Set-Acl -Path $backupPath
           <param name="cpv.PatchVersion" value="0" />
           <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
           <param name="cpv.SetBuildNumber" value="true" />
-          <param name="cpv.TrunkName" value="%OverrideTrunkName%" />
+          <param name="cpv.TrunkName" value="%TrunkName%" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
