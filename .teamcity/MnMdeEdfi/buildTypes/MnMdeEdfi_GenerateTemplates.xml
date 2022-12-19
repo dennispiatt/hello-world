@@ -87,7 +87,7 @@ $ACL | Set-Acl -Path $backupPath
         <parameters>
           <param name="jetbrains_powershell_errorToError" value="true" />
           <param name="jetbrains_powershell_execution" value="PS1" />
-          <param name="jetbrains_powershell_scriptArguments" value="-version '%PackageVersion%" />
+          <param name="jetbrains_powershell_scriptArguments" value="-version '%PackageVersion%'" />
           <param name="jetbrains_powershell_script_file" value="buildDatabaseTemplates.ps1" />
           <param name="jetbrains_powershell_script_mode" value="FILE" />
           <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-Implementation" />
