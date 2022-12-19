@@ -69,6 +69,20 @@ $ACL | Set-Acl -Path $backupPath
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
+      <runner id="RUNNER_16" name="" type="CalculatePackageVersion32_svn">
+        <parameters>
+          <param name="cpv.DefaultTrunkName" value="%TrunkName%" />
+          <param name="cpv.MajorVersion" value="%build.counter%" />
+          <param name="cpv.MinorVersion" value="0" />
+          <param name="cpv.OverridePackageVersion" value="false" />
+          <param name="cpv.PackageVersion" value="%PackageVersion%" />
+          <param name="cpv.PatchVersion" value="0" />
+          <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
+          <param name="cpv.SetBuildNumber" value="true" />
+          <param name="cpv.TrunkName" value="%OverrideTrunkName%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
       <runner id="RUNNER_3" name="Build Database Templates" type="jetbrains_powershell">
         <parameters>
           <param name="jetbrains_powershell_errorToError" value="true" />
@@ -87,20 +101,6 @@ $ACL | Set-Acl -Path $backupPath
           <param name="nuget.publish.source" value="%nexus.nuget.package.source%" />
           <param name="nuget.push.commandline" value="-Timeout 6000" />
           <param name="secure:nuget.api.key" value="credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
-      <runner id="RUNNER_16" name="" type="CalculatePackageVersion32_svn">
-        <parameters>
-          <param name="cpv.DefaultTrunkName" value="%TrunkName%" />
-          <param name="cpv.MajorVersion" value="%build.counter%" />
-          <param name="cpv.MinorVersion" value="0" />
-          <param name="cpv.OverridePackageVersion" value="false" />
-          <param name="cpv.PackageVersion" value="%PackageVersion%" />
-          <param name="cpv.PatchVersion" value="0" />
-          <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
-          <param name="cpv.SetBuildNumber" value="true" />
-          <param name="cpv.TrunkName" value="%OverrideTrunkName%" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
