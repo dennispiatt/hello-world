@@ -7,7 +7,7 @@
   <param name="secure:svn-password" value="credentialsJSON:dba06d21-730a-471d-a498-ed3d067c0db1" />
   <param name="svn-config-directory" value="/opt/teamcity/.subversion" />
   <param name="svn-use-default-config-directory" value="true" />
-  <param name="url" value="http://192.168.0.62:8280/svn/mndoe/main-v52" />
+  <param name="url" value="http://192.168.0.62:8280/svn/mndoe/trunk/main-v52" />
   <param name="user" value="d.piatt" />
   <param name="working-copy-format" value="1.8" />
 </vcs-root>
