@@ -110,13 +110,6 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="MnMdeEdfi_MainV52">
-        <checkout-rule rule="+:Ed-Fi-ODS =&gt; Ed-Fi-ODS" />
-        <checkout-rule rule="+:Ed-Fi-ODS-AdminApp =&gt; Ed-Fi-ODS-AdminApp" />
-        <checkout-rule rule="+:Ed-Fi-Ods-Docker =&gt; Ed-Fi-Ods-Docker" />
-        <checkout-rule rule="+:Ed-Fi-ODS-Implementation =&gt; Ed-Fi-ODS-Implementation" />
-        <checkout-rule rule="+:Ed-Fi-Standard =&gt; Ed-Fi-Standard" />
-      </vcs-entry-ref>
       <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk" />
     </vcs-settings>
     <requirements>
