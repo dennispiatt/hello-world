@@ -212,6 +212,7 @@ ls *.tar | Out-Host]]></param>
     </build-runners>
     <vcs-settings>
       <vcs-entry-ref root-id="MnMdeEdfi_MainV52" />
+      <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk" />
     </vcs-settings>
     <requirements />
     <build-triggers>
