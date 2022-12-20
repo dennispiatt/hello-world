@@ -96,7 +96,7 @@ if (-not $overridePackageVersion) {
 	$channel = Get-DeploymentChannel -trunkName $trunkName -defaultTrunkName $defaultTrunkName;
 	$packageVersion = Get-PackageVersion -channel $channel -major $major -minor $minor -patch $patch -semver $semver;
 	write-host "Package Version: $packageVersion";
-	write-host "##teamcity[setParameter name='DeploymentChannel' value='$channel']";
+	write-host "##teamcity[setParameter name='Channel' value='$channel']";
 	write-host "Channel: $channel";
 	write-host "##teamcity[setParameter name='PackageVersion' value='$packageVersion']";
 }
