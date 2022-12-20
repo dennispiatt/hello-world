@@ -11,7 +11,7 @@
       <setting-ref ref="RUNNER_3" />
     </disabled-settings>
     <parameters>
-      <param name="PackageVersion" value="tbd%dep.MnMdeEdfi_BuildWebsites.PackageVersion%" />
+      <param name="PackageVersion" value="%dep.MnMdeEdfi_BuildWebsites.PackageVersion%" />
       <param name="TrunkName" value="%dep.MnMdeEdfi_BuildWebsites.TrunkName%" />
     </parameters>
     <build-runners>
