@@ -3,9 +3,6 @@
   <name>test</name>
   <description>Build Web API, Sandbox Admin, Swagger UI, ODS Databases</description>
   <settings>
-    <options>
-      <option name="cleanBuild" value="true" />
-    </options>
     <parameters>
       <param name="adminApp.MajorVersion" value="2" />
       <param name="adminApp.MinorVersion" value="2" />
