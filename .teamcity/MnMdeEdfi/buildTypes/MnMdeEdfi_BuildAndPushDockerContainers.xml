@@ -10,7 +10,9 @@
     <disabled-settings>
       <setting-ref ref="RUNNER_3" />
     </disabled-settings>
-    <parameters />
+    <parameters>
+      <param name="PackageVersion" value="tbd%dep.MnMdeEdfi_BuildWebsites.PackageVersion%" />
+    </parameters>
     <build-runners>
       <runner id="RUNNER_1" name="Copy artifact binaries for docker build" type="jetbrains_powershell">
         <parameters>
