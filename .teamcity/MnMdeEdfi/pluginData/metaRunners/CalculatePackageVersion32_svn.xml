@@ -26,18 +26,18 @@
           <param name="jetbrains_powershell_errorToError" value="true" />
           <param name="jetbrains_powershell_execution" value="PS1" />
           <param name="jetbrains_powershell_minVersion" value="3.0" />
-          <param name="jetbrains_powershell_script_code"><![CDATA[$overridePackageVersion = [boolean]::Parse("%cpv.OverridePackageVersion%")
-$packageVersion = "%cpv.PackageVersion%"
-$channel = "%cpv.Channel%"
-$buildCounter = "%build.counter%" -as [int]
-$trunkName = '%cpv.TrunkName%'
-$defaultTrunkName = '%cpv.DefaultTrunkName%'
+          <param name="jetbrains_powershell_script_code"><![CDATA[$overridePackageVersion = [boolean]::Parse("%cpv.OverridePackageVersion%");
+$packageVersion = "%cpv.PackageVersion%";
+$channel = "%cpv.Channel%";
+$buildCounter = "%build.counter%" -as [int];
+$trunkName = '%cpv.TrunkName%';
+$defaultTrunkName = '%cpv.DefaultTrunkName%';
 #Positive values only.
-$major = "%cpv.MajorVersion%" -as [uint32]
-$minor = "%cpv.MinorVersion%" -as [uint32]
-$patch = "%cpv.PatchVersion%" -as [uint32]
-$semver = "%cpv.SemVerVersion%"
-$setBuildNumber = [boolean]::Parse("%cpv.SetBuildNumber%")
+$major = "%cpv.MajorVersion%" -as [uint32];
+$minor = "%cpv.MinorVersion%" -as [uint32];
+$patch = "%cpv.PatchVersion%" -as [uint32];
+$semver = "%cpv.SemVerVersion%";
+$setBuildNumber = [boolean]::Parse("%cpv.SetBuildNumber%");
 
  Function Get-DeploymentChannel {
  	Param(
@@ -46,26 +46,26 @@ $setBuildNumber = [boolean]::Parse("%cpv.SetBuildNumber%")
 )
 	if ($trunkName.Contains("/")) 
 	{
-		$trunkName = $trunkName.substring($trunkName.lastIndexOf("/")).trim("/")
+		$trunkName = $trunkName.substring($trunkName.lastIndexOf("/")).trim("/");
 	}
 	switch -regex ($trunkName) {
 		"^$defaultTrunkName`$" {
-            $channel = ""
-			break
+            $channel = "";
+			break;
 		}
 		"^(?:$defaultTrunkName)_(?<channel>\w*)`$" {
-			$channel = $Matches.channel
-			break
+			$channel = $Matches.channel;
+			break;
 		}
 		default {
-			$channel = $trunkName -replace '^h?f-','' -replace '[^A-Za-z0-9]',''
+			$channel = $trunkName -replace '^h?f-','' -replace '[^A-Za-z0-9]','';
 			if ($channel.Length -gt 20) {
-				$channel = $channel.substring(0,20)
+				$channel = $channel.substring(0,20);
 			}
-			break
+			break;
 		}
 	}
- 	return $channel
+ 	return $channel;
  }
 
  Function Get-PackageVersion {
@@ -77,34 +77,34 @@ $setBuildNumber = [boolean]::Parse("%cpv.SetBuildNumber%")
  	[ValidateSet("1.0.0","2.0.0")]
  	[string] $semver = "1.0.0"
  	)
- 	$packageVersion = [String]::Join(".",($major, $minor, $patch))
+ 	$packageVersion = [String]::Join(".",($major, $minor, $patch));
 
      if ($channel -ne "") {
- 		$packageVersion = "$packageVersion-$channel"
+ 		$packageVersion = "$packageVersion-$channel";
      }
  	if ($semver -eq "2.0.0") {
- 		$packageVersion += "+$buildCounter"
+ 		$packageVersion += "+$buildCounter";
  	}
- 	return $packageVersion
+ 	return $packageVersion;
 }
 
 if (-not $overridePackageVersion) {
 	if ($trunkName -eq [String]::Concat("%","teamcity",".","build",".","branch","%")) {
-		$trunkName = "main"
+		$trunkName = "main";
 	}
-	write-host "Using trunk name: '$trunkName'"
-	$channel = Get-DeploymentChannel -trunkName $trunkName -defaultTrunkName $defaultTrunkName
-	$packageVersion = Get-PackageVersion -channel $channel -major $major -minor $minor -patch $patch -semver $semver
-	write-host "Package Version: $packageVersion"
-	write-host "Channel: $channel"
-	write-host "##teamcity[setParameter name='Channel' value='$channel']"
-	write-host "##teamcity[setParameter name='PackageVersion' value='$packageVersion']"
+	write-host "Using trunk name: '$trunkName'";
+	$channel = Get-DeploymentChannel -trunkName $trunkName -defaultTrunkName $defaultTrunkName;
+	$packageVersion = Get-PackageVersion -channel $channel -major $major -minor $minor -patch $patch -semver $semver;
+	write-host "Package Version: $packageVersion";
+	write-host "##teamcity[setParameter name='Channel' value='$channel']";
+	write-host "Channel: $channel";
+	write-host "##teamcity[setParameter name='PackageVersion' value='$packageVersion']";
 }
 else {
-	write-host "Package Version: $packageVersion"
+	write-host "Package Version: $packageVersion";
 }
 if ($setBuildNumber) {
-	write-host "##teamcity[buildNumber '$packageVersion']"
+	write-host "##teamcity[buildNumber '$packageVersion']";
 }]]></param>
           <param name="jetbrains_powershell_script_mode" value="CODE" />
           <param name="teamcity.step.mode" value="default" />
