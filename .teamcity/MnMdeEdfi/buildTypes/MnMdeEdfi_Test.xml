@@ -64,18 +64,6 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
-      <runner id="RUNNER_4" name="Build Ed-Fi ODS API websites and databases" type="jetbrains_powershell">
-        <parameters>
-          <param name="jetbrains_powershell_errorToError" value="true" />
-          <param name="jetbrains_powershell_execution" value="PS1" />
-          <param name="jetbrains_powershell_noprofile" value="true" />
-          <param name="jetbrains_powershell_script_code" value="" />
-          <param name="jetbrains_powershell_script_file" value="build.teamcity.ps1" />
-          <param name="jetbrains_powershell_script_mode" value="FILE" />
-          <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-Implementation" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
       <runner id="RUNNER_5" name="Copy Built Binaries for Docker" type="jetbrains_powershell">
         <parameters>
           <param name="jetbrains_powershell_errorToError" value="true" />
