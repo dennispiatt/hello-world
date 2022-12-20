@@ -151,14 +151,7 @@ ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
     <requirements>
       <equals id="RQ_2" name="env.OS" value="Windows_NT" />
     </requirements>
-    <build-triggers>
-      <build-trigger id="TRIGGER_1" type="vcsTrigger">
-        <parameters>
-          <param name="enableQueueOptimization" value="true" />
-          <param name="quietPeriodMode" value="USE_DEFAULT" />
-        </parameters>
-      </build-trigger>
-    </build-triggers>
+    <build-triggers />
     <cleanup />
   </settings>
 </build-type>
