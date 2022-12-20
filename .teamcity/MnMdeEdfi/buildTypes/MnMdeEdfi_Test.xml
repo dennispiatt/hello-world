@@ -49,18 +49,6 @@ Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
           <param name="teamcity.step.mode" value="default" />
         </parameters>
       </runner>
-      <runner id="RUNNER_3" name="Add Nuget Source for Codegen Package" type="jetbrains_powershell">
-        <parameters>
-          <param name="jetbrains_powershell_errorToError" value="true" />
-          <param name="jetbrains_powershell_execution" value="PS1" />
-          <param name="jetbrains_powershell_noprofile" value="true" />
-          <param name="jetbrains_powershell_script_code" value="&amp; dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config" />
-          <param name="jetbrains_powershell_script_file" value="" />
-          <param name="jetbrains_powershell_script_mode" value="CODE" />
-          <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-Implementation" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
       <runner id="RUNNER_18" name="Calculate api version" type="CalculatePackageVersion32_svn">
         <parameters>
           <param name="cpv.Channel" value="%Channel%" />
