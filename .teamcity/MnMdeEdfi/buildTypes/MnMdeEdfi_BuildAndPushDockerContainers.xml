@@ -196,7 +196,7 @@ Get-ChildItem *.tar | ForEach-Object {
       </runner>
       <runner id="RUNNER_6" name="Octopush IaC to Octopus package repo" type="octopus.push.package">
         <parameters>
-          <param name="octopus_forcepush" value="false" />
+          <param name="octopus_forcepush" value="true" />
           <param name="octopus_host" value="%octopus.nuget.package.source%" />
           <param name="octopus_packagepaths" value="Octopack/*.nupkg" />
           <param name="octopus_publishartifacts" value="true" />
