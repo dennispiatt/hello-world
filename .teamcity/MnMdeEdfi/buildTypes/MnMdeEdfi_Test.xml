@@ -19,21 +19,6 @@
       <param name="school.year" value="2022" />
     </parameters>
     <build-runners>
-      <runner id="RUNNER_1" name="Clean package directories" type="jetbrains_powershell">
-        <parameters>
-          <param name="jetbrains_powershell_execution" value="PS1" />
-          <param name="jetbrains_powershell_noprofile" value="true" />
-          <param name="jetbrains_powershell_script_code"><![CDATA[if(Test-Path "Ed-Fi-ODS-Implementation\packages") {
-	Remove-Item "Ed-Fi-ODS-Implementation\packages\*" -Recurse -Force | out-null
-} else { 
-	md packages | out-null
-}
-
-Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
-          <param name="jetbrains_powershell_script_mode" value="CODE" />
-          <param name="teamcity.step.mode" value="default" />
-        </parameters>
-      </runner>
       <runner id="RUNNER_17" name="Calculate admin app version" type="CalculatePackageVersion32_svn">
         <parameters>
           <param name="cpv.Channel" value="%Channel%" />
