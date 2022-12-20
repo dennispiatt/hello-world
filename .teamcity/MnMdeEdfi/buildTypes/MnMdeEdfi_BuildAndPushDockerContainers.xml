@@ -11,7 +11,6 @@
       <setting-ref ref="RUNNER_3" />
     </disabled-settings>
     <parameters>
-      <param name="Channel" value="%dep.MnMdeEdfi_BuildWebsites.Channel%" />
       <param name="PackageVersion" value="%dep.MnMdeEdfi_BuildWebsites.PackageVersion%" />
       <param name="TrunkName" value="%dep.MnMdeEdfi_BuildWebsites.TrunkName%" />
     </parameters>
