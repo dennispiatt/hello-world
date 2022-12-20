@@ -173,9 +173,13 @@ ls *.tar | Out-Host]]></param>
           <param name="jetbrains_powershell_errorToError" value="true" />
           <param name="jetbrains_powershell_execution" value="PS1" />
           <param name="jetbrains_powershell_noprofile" value="true" />
-          <param name="jetbrains_powershell_script_code"><![CDATA[Get-ChildItem *.tar | ForEach-Object { 
+          <param name="jetbrains_powershell_script_code"><![CDATA[$destPath = "%mn-mde-edfi.nexus.host%/repository/edfi-raw/"
+if ("%DefaultTrunkName%" -ne "%TrunkName%") {
+    $destPath = $destPath + "%Channel%/" 
+}
+Get-ChildItem *.tar | ForEach-Object { 
     write-host "uploading $_"
-    curl --user "$("%nexus.nuget.username%"):$("%nexus.nuget.password%")" --upload-file "$_" %mn-mde-edfi.nexus.host%/repository/edfi-raw/ 2>&1
+    curl --user "$("%nexus.nuget.username%"):$("%nexus.nuget.password%")" --upload-file "$_" $destPath 2>&1
 }]]></param>
           <param name="jetbrains_powershell_script_mode" value="CODE" />
           <param name="teamcity.build.workingDir" value="Ed-Fi-Ods-Docker" />
