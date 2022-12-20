@@ -83,7 +83,6 @@ ls $packageDir]]></param>
       </runner>
       <runner id="RUNNER_18" name="Calculate api version" type="CalculatePackageVersion32_svn">
         <parameters>
-          <param name="cpv.Channel" value="%Channel%" />
           <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
           <param name="cpv.MajorVersion" value="%MajorPackageVersion%" />
           <param name="cpv.MinorVersion" value="%MinorPackageVersion%" />
