@@ -176,7 +176,9 @@ ls *.tar | Out-Host]]></param>
           <param name="jetbrains_powershell_noprofile" value="true" />
           <param name="jetbrains_powershell_script_code"><![CDATA[$destPath = "%mn-mde-edfi.nexus.host%/repository/edfi-raw/"
 if ("%DefaultTrunkName%" -ne "%TrunkName%") {
-    $destPath = $destPath + "%Channel%/" 
+	$packageVersion = "%PackageVersion%"
+	$channel = $packageVersion.split("-",2)[-1]
+    $destPath = $destPath + "$channel/" 
 }
 Get-ChildItem *.tar | ForEach-Object { 
     write-host "uploading $_"
