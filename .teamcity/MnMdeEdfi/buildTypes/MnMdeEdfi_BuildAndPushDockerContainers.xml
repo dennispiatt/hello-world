@@ -220,7 +220,7 @@ Get-ChildItem *.tar | ForEach-Object {
       <build-trigger id="TRIGGER_1" type="buildDependencyTrigger">
         <parameters>
           <param name="afterSuccessfulBuildOnly" value="true" />
-          <param name="branchFilter" value="+:&lt;default&gt;" />
+          <param name="branchFilter" value="+:*" />
           <param name="dependsOn" value="MnMdeEdfi_BuildWebsites" />
         </parameters>
       </build-trigger>
