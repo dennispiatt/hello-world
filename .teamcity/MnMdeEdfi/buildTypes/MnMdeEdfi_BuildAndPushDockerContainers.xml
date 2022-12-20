@@ -194,7 +194,7 @@ Get-ChildItem *.tar | ForEach-Object {
           <param name="octopus_packageid" value="MN.EdFi.Octopus.Deploy" />
           <param name="octopus_packageoutputpath" value="Octopack" />
           <param name="octopus_packagesourcepath" value="Ed-Fi-Ods-Docker/Octopus" />
-          <param name="octopus_packageversion" value="%odsapi.build.package.webApi.version%" />
+          <param name="octopus_packageversion" value="%PackageVersion%" />
           <param name="octopus_publishartifacts" value="true" />
           <param name="teamcity.step.mode" value="default" />
         </parameters>
