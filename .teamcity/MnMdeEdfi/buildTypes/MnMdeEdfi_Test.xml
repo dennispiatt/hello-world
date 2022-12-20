@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="779296c8-c2d0-4ead-993b-18bbf2c59b6a" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>test</name>
+  <description>Build Web API, Sandbox Admin, Swagger UI, ODS Databases</description>
+  <settings>
+    <options>
+      <option name="cleanBuild" value="true" />
+    </options>
+    <parameters>
+      <param name="adminApp.MajorVersion" value="2" />
+      <param name="adminApp.MinorVersion" value="2" />
+      <param name="adminApp.version" value="%adminApp.MajorVersion%.%adminApp.MinorVersion%.%build.counter%" />
+      <param name="env.Nuget_ApiKey" value="%nexus.nuget.api.key%" />
+      <param name="env.Nuget_Source" value="%nexus.nuget.package.source%" />
+      <param name="odsapi.build.runDotnetTest" value="False" />
+      <param name="odsapi.build.runPester" value="False" />
+      <param name="odsapi.build.runPostman" value="False" />
+      <param name="odsapi.build.runSmokeTest" value="False" />
+      <param name="school.year" value="2022" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_1" name="Clean package directories" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[if(Test-Path "Ed-Fi-ODS-Implementation\packages") {
+	Remove-Item "Ed-Fi-ODS-Implementation\packages\*" -Recurse -Force | out-null
+} else { 
+	md packages | out-null
+}
+
+Remove-Item Ed-Fi-ODS-AdminApp\*.nupkg | out-null]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_17" name="Calculate admin app version" type="CalculatePackageVersion32_svn">
+        <parameters>
+          <param name="cpv.Channel" value="%Channel%" />
+          <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
+          <param name="cpv.MajorVersion" value="%adminApp.MajorVersion%" />
+          <param name="cpv.MinorVersion" value="%adminApp.MinorVersion%" />
+          <param name="cpv.OverridePackageVersion" value="false" />
+          <param name="cpv.PackageVersion" value="%adminApp.version%" />
+          <param name="cpv.PatchVersion" value="%PatchPackageVersion%" />
+          <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
+          <param name="cpv.SetBuildNumber" value="true" />
+          <param name="cpv.TrunkName" value="%TrunkName%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_2" name="Build Ed-Fi ODS Admin App" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[.\build.ps1 -Version "%PackageVersion%" -BuildCounter %build.counter% -Command Build -Configuration Release
+.\build.ps1 -Command UnitTest -Configuration Release
+.\build.ps1 -Version "%PackageVersion%" -BuildCounter %build.counter% -Command Package -Configuration Release
+$packageDir = "..\Ed-Fi-Ods-Implementation\packages"
+if(-not (Test-Path $packageDir)) { 
+	md $packageDir | out-null
+}
+copy *.nupkg $packageDir
+ls $packageDir]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-AdminApp" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_3" name="Add Nuget Source for Codegen Package" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code" value="&amp; dotnet nuget update source github -u %teamcity.github.user% -p %teamcity.github.personalAccessToken% --store-password-in-clear-text --configfile ./NuGet.Config" />
+          <param name="jetbrains_powershell_script_file" value="" />
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-Implementation" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_18" name="Calculate api version" type="CalculatePackageVersion32_svn">
+        <parameters>
+          <param name="cpv.Channel" value="%Channel%" />
+          <param name="cpv.DefaultTrunkName" value="%DefaultTrunkName%" />
+          <param name="cpv.MajorVersion" value="%MajorPackageVersion%" />
+          <param name="cpv.MinorVersion" value="%MinorPackageVersion%" />
+          <param name="cpv.OverridePackageVersion" value="false" />
+          <param name="cpv.PackageVersion" value="%PackageVersion%" />
+          <param name="cpv.PatchVersion" value="%PatchPackageVersion%" />
+          <param name="cpv.SemVerVersion" value="%SemVerVersion%" />
+          <param name="cpv.SetBuildNumber" value="true" />
+          <param name="cpv.TrunkName" value="%TrunkName%" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_4" name="Build Ed-Fi ODS API websites and databases" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code" value="" />
+          <param name="jetbrains_powershell_script_file" value="build.teamcity.ps1" />
+          <param name="jetbrains_powershell_script_mode" value="FILE" />
+          <param name="teamcity.build.workingDir" value="Ed-Fi-ODS-Implementation" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_5" name="Copy Built Binaries for Docker" type="jetbrains_powershell">
+        <parameters>
+          <param name="jetbrains_powershell_errorToError" value="true" />
+          <param name="jetbrains_powershell_execution" value="PS1" />
+          <param name="jetbrains_powershell_noprofile" value="true" />
+          <param name="jetbrains_powershell_script_code"><![CDATA[Write-Host "Copying WebApi"
+copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.WebApi.*.nupkg Ed-Fi-ODS-Docker\Web-Ods-Api\Alpine\mssql\app.zip
+
+Write-Host "Copying SwaggerUI"
+copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SwaggerUI.*.nupkg  Ed-Fi-ODS-Docker\Web-SwaggerUI\Alpine\app.zip
+
+Write-Host "Copying SandboxAdmin"
+copy Ed-Fi-ODS-Implementation\packages\MN.EdFi.Ods.SandboxAdmin.*.nupkg Ed-Fi-ODS-Docker\Web-Sandbox-Admin\Alpine\mssql\app.zip
+
+Write-Host "Copying AdminApp"
+copy Ed-Fi-ODS-AdminApp\EdFi.Suite3.ODS.AdminApp.Web.*.nupkg Ed-Fi-ODS-Docker\Web-Ods-AdminApp\Alpine\mssql\app.zip
+
+ls -r Ed-Fi-ODS-Docker\app.zip]]></param>
+          <param name="jetbrains_powershell_script_mode" value="CODE" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6" name="Publish NuGet packages to Nexus" type="jb.nuget.publish">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.publish.files" value="Ed-Fi-ODS-Implementation\packages\*.nupkg" />
+          <param name="nuget.publish.source" value="%nexus.nuget.package.source%" />
+          <param name="secure:nuget.api.key" value="credentialsJSON:b5e78adb-405c-481e-ab62-4af7b6635952" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="MnMdeEdfi_MndoeTrunk">
+        <checkout-rule rule="+:%TrunkName%/Ed-Fi-ODS =&gt; Ed-Fi-ODS" />
+        <checkout-rule rule="+:%TrunkName%/Ed-Fi-ODS-AdminApp =&gt; Ed-Fi-ODS-AdminApp" />
+        <checkout-rule rule="+:%TrunkName%/Ed-Fi-Ods-Docker =&gt; Ed-Fi-Ods-Docker" />
+        <checkout-rule rule="+:%TrunkName%/Ed-Fi-ODS-Implementation =&gt; Ed-Fi-ODS-Implementation" />
+        <checkout-rule rule="+:%TrunkName%/Ed-Fi-Standard =&gt; Ed-Fi-Standard" />
+      </vcs-entry-ref>
+    </vcs-settings>
+    <requirements>
+      <equals id="RQ_2" name="env.OS" value="Windows_NT" />
+    </requirements>
+    <build-triggers>
+      <build-trigger id="TRIGGER_1" type="vcsTrigger">
+        <parameters>
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="USE_DEFAULT" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</build-type>
+
