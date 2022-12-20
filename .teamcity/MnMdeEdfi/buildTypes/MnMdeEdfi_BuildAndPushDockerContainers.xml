@@ -49,12 +49,12 @@ $imageName = "edfi-docker"
 $schoolYear = "%school.year%"
 $buildCounter = "%build.counter%"
 
-$tagLatest = $true
+$tagLatest = "latest"
 $tag = "%build.counter%"
 if ("%TrunkName%" -ne "%DefaultTrunkName%")
 {
 	$tag = "%PackageVersion%"
-    $tagLatest = $false
+    $tagLatest = $tag.split("-",2)[-1]
 }
 
 Write-Host "retrieve ssl zip"
@@ -79,14 +79,9 @@ foreach($imageName in $imagesToBuild.Keys) {
     if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
     docker tag $imageName $repo/$($imageName).%school.year%:$tag
     if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-    if ($tagLatest) {
-	    docker tag $imageName $repo/$($imageName):latest
-	    if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
-	    docker save $repo/$($imageName):latest -o "$($imageName).tar"
-    }
-    else {
-	    docker save $repo/$($imageName).%school.year%:$tag -o "$($imageName).tar"
-    }
+    docker tag $imageName $repo/$($imageName):$tagLatest
+    if ($error.count -gt 0 -or $LASTEXITCODE -gt 0) { exit 1; }
+    docker save $repo/$($imageName):$tagLatest -o "$($imageName).tar"
 }
 
 ls *.tar | Out-Host]]></param>
