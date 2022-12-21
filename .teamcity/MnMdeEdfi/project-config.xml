@@ -7,7 +7,7 @@
     <param name="MinorPackageVersion" value="2" />
     <param name="PatchPackageVersion" value="%build.counter%" />
     <param name="SemVerVersion" value="1.0.0" />
-    <param name="TrunkName" value="%DefaultTrunkName%" />
+    <param name="TrunkName" value="%DefaultTrunkName%" spec="select display='normal' data_2='main-v24_sb24' data_1='%DefaulTTrunkName%'" />
     <param name="env.MNIT_TeamCity_Build" value="true" />
     <param name="env.msbuild_buildConfiguration" value="Release" />
     <param name="nexus.docker.feed" value="%mn-mde-edfi.nexus.host%/repository/edfi-docker/" />
