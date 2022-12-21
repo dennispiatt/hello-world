@@ -13,6 +13,7 @@
     <parameters>
       <param name="PackageVersion" value="%dep.MnMdeEdfi_BuildWebsites.PackageVersion%" />
       <param name="TrunkName" value="%dep.MnMdeEdfi_BuildWebsites.TrunkName%" />
+      <param name="teamcity.build.branch" value="%dep.MnMdeEdfi_BuildWebsites.teamcity.build.branch%" />
     </parameters>
     <build-runners>
       <runner id="RUNNER_1" name="Copy artifact binaries for docker build" type="jetbrains_powershell">
