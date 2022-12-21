@@ -34,7 +34,7 @@
     <param name="odsapi.build.runPostman" value="false" />
     <param name="odsapi.build.runSmokeTest" value="false" />
     <param name="school.year" value="2023" />
-    <param name="teamcity.build.branch" value="TrunkName" />
+    <param name="teamcity.build.branch" value="%TrunkName%" />
   </parameters>
   <project-extensions>
     <extension id="PROJECT_EXT_1" type="versionedSettings">
