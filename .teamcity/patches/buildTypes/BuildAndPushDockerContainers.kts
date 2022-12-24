@@ -28,4 +28,23 @@ changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
             }
         }
     }
+
+    dependencies {
+        expect(RelativeId("BuildWebsites")) {
+            snapshot {
+            }
+
+            artifacts {
+                cleanDestination = true
+                artifactRules = """+:* => Ed-Fi-ODS-Implementation\packages"""
+            }
+        }
+        update(RelativeId("BuildWebsites")) {
+            artifacts {
+                cleanDestination = true
+                artifactRules = """+:* => Ed-Fi-ODS-Implementation\packages"""
+            }
+        }
+
+    }
 }
