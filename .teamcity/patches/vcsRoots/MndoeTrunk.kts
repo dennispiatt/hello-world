@@ -23,7 +23,7 @@ changeVcsRoot(RelativeId("MndoeTrunk")) {
     }
 
     (this as SvnVcsRoot).apply {
-        url = "http://teamcity-svn-1/svn/mndoe/trunk/"
+        url = "http://mn-doe-svn-1/svn/mndoe/trunk/"
     }
 
 }
