@@ -1,8 +1,6 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.FinishBuildTrigger
-import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -17,19 +15,5 @@ changeBuildType(RelativeId("BuildAndPushDockerContainers")) {
             "Unexpected option value: checkoutMode = $checkoutMode"
         }
         checkoutMode = CheckoutMode.ON_SERVER
-    }
-
-    triggers {
-        val trigger1 = find<FinishBuildTrigger> {
-            finishBuildTrigger {
-                buildType = "MnMdeEdfi_BuildWebsites"
-                successfulOnly = true
-                branchFilter = "+:*"
-            }
-        }
-        trigger1.apply {
-            branchFilter = "+:main-v52"
-
-        }
     }
 }
